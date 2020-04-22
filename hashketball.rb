@@ -1,3 +1,4 @@
+require "pry"
 # Write your code below game_hash
 def game_hash
   {
@@ -126,4 +127,91 @@ def game_hash
   }
 end
 
-# Write code here
+def return_player_stats(name)
+	data = game_hash
+	stats = data.reduce({}) do |memo, (key, value)|
+		if !memo[name]
+			memo[name] = value.reduce(nil) do |memo0, (k0, val0)|
+				if k0 == :players
+					val0.each do |el|	
+						if !memo0
+							memo0 = el[:player_name] == name ? el : nil
+						end	
+					end
+				end
+				memo0
+			end
+		end
+		memo
+	end
+end
+      
+      
+
+def num_points_scored(name)
+  stats = return_player_stats(name)
+  points_scored = stats[name][:points]
+end
+
+def shoe_size(name)
+  stats = return_player_stats(name)
+  size = stats[name][:shoe]
+end
+
+def team_colors(team_name)
+  colors = game_hash.reduce(nil) do |memo, (key, value)|
+    if value[:team_name] == team_name && !memo
+      memo = value[:colors]
+    end
+    memo
+  end
+  colors
+end
+
+def team_names
+  names = game_hash.reduce([]) do |memo, (key, value)|
+    memo.push(value[:team_name])
+  end
+end
+
+def player_numbers(name)
+  jerseys = game_hash.reduce([]) do |memo, (k, val)|
+    if val[:team_name] == name
+      val.reduce(nil) do |m0, (k0, val0)|
+        if k0 == :players
+          val0.map{|el| memo.push(el[:number])}
+        end
+        m0
+      end
+    end
+    memo
+  end
+end
+
+def player_stats(name)
+  stats = return_player_stats(name)[name]
+end
+
+def big_shoe_rebounds
+	biggest_shoe = 0
+ 	rebounds = game_hash.reduce(nil) do |memo, (key, value)|
+	  	#keys are home and away value is {}
+	    value.reduce(nil) do |m0, (k0, val0)|
+	    	#k0 is :players
+	     	if k0 == :players
+	        	#look for biggest shoe
+	        	val0.map{ |el|
+	        		if el[:shoe] > biggest_shoe
+	        			biggest_shoe = el[:shoe]
+	        			memo = el[:rebounds]
+	        		end
+	        	}
+	        end
+	    end
+	    memo
+	end
+end
+
+
+
+

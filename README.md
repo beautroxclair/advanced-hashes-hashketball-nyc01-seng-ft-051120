@@ -1,4 +1,4 @@
-# Hashketball
+rspec spec/hashketball_spec.rb -e game_hash# Hashketball
 
 ## Learning Goals
 
