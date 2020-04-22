@@ -193,21 +193,19 @@ def player_stats(name)
 end
 
 def big_shoe_rebounds
+	biggest_shoe = 0
  	rebounds = game_hash.reduce(nil) do |memo, (key, value)|
 	  	#keys are home and away value is {}
 	    value.reduce(nil) do |m0, (k0, val0)|
 	    	#k0 is :players
 	     	if k0 == :players
 	        	#look for biggest shoe
-	        	biggest_shoe = 0
-	        	val0.each do |el|
+	        	val0.map{ |el|
 	        		if el[:shoe] > biggest_shoe
-	        		  pp el[:shoe]
-	        		  pp biggest_shoe
 	        			biggest_shoe = el[:shoe]
 	        			memo = el[:rebounds]
-	        	  end
-	        	end
+	        		end
+	        	}
 	        end
 	    end
 	    memo
